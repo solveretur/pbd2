@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="en">
+<!--PAMIĘTAJ BY PRZEKOPIOWAC ZNACZNIKI <script>,<link> Z SAMEGO DOLU ZAMYKAJACEGO <body> !!!!!-->
+<head>
+    <meta charset="UTF-8"/>
+    <title>Domtel v2</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="col-md-12" th:include="@{header}">
+    </div>
+    <div class="col-md-12">
+        <div class="calendar" id="calendar"></div>
+    </div>
+</div>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/fullcalendar.min.css}"/>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/moment.min.js}"></script>
+<script th:src="@{/jquery-ui.min.js}"></script>
+<script th:src="@{/pl.js}"></script>
+<script th:src="@{/fullcalendar.min.js}"></script>
+<link rel="stylesheet" th:href="@{/all.min.css}"/>
+<script>
+    $('#calendar').fullCalendar({
+        locale: 'pl',
+        events: {
+            url: '/events/fullcalendar'
+        }
+    });
+</script>
+</body>
+</html>

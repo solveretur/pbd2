@@ -1,0 +1,1 @@
+GRANT FILE on *.* to dbuser@'%';

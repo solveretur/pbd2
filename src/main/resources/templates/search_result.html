@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!--PAMIĘTAJ BY PRZEKOPIOWAC ZNACZNIKI <script>,<link> Z SAMEGO DOLU ZAMYKAJACEGO <body> !!!!!-->
+<head>
+    <meta charset="UTF-8"/>
+    <title>Domtel v2</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" th:include="@{header}">
+        </div>
+        <div class="col-md-12">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Imie</th>
+                    <th>Nazwisko</th>
+                    <th>Rocznik</th>
+                    <th>Klub / Miasto</th>
+                    <th>Profil</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="athlete : ${people}">
+                    <td th:text="${athlete.name}"></td>
+                    <td th:text="${athlete.surname}"></td>
+                    <td th:text="${athlete.birthYear}"></td>
+                    <td th:text="${athlete.team} + ' '+ ${athlete.town}"></td>
+                    <td><a class="btn btn-link" th:href="@{/athlethes/{id}(id=${athlete.id})}" role="button">Przejdź do
+                        profilu</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/all.min.css}"/>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+</body>
+</html>

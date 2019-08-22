@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<!--PAMIĘTAJ BY PRZEKOPIOWAC ZNACZNIKI <script>,<link> Z SAMEGO DOLU ZAMYKAJACEGO <body> !!!!!-->
+<head>
+    <meta charset="UTF-8"/>
+    <title>Domtel v2</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" th:include="@{header}">
+        </div>
+        <div class="col-md-8">
+            <div th:if="${param.success}" class="card text-white bg-success mb-3">
+                <div class="card-body" th:text="${param.text}">Success</div>
+                <span class="mx-auto clickable close-icon" data-effect="fadeOut">OK</span>
+            </div>
+            <div th:if="${param.error}" class="card text-white bg-danger mb-3">
+                <div class="card-body" th:text="${param.text}">Error</div>
+                <span class="mx-auto clickable close-icon" data-effect="fadeOut">OK</span>
+            </div>
+
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th colspan="2">
+                        ZAWODY
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Ranga zawodów</td>
+                    <td th:text="${event.eventRank}"></td>
+                </tr>
+                <tr>
+                    <td>Miejsce zawodów</td>
+                    <td th:text="${event.town} + ', ' + ${event.district}"></td>
+                </tr>
+                <tr>
+                    <td>Data zawodów</td>
+                    <td th:text="${event.occurDate}"></td>
+                </tr>
+                <tr>
+                    <td>Liczba zwodników</td>
+                    <td th:text="${event.currentNumberOfContestants} + '/' + ${event.maxNumberOfContestants}"></td>
+                </tr>
+                <tr>
+                    <td>Zgłoś się na zawody</td>
+                    <td>
+                        <form th:if="${event.shouldRegisterButtonBeEnabled}"
+                              th:action="@{/events/register(eventId=${event.eventId}, personId=${#authentication.getPrincipal().getId()})}"
+                              method="POST">
+                            <button type="submit" class="btn btn-lg btn-primary">
+                                Zgłoś się
+                            </button>
+                        </form>
+                        <button th:if="!${event.shouldRegisterButtonBeEnabled}" type="submit"
+                                class="btn btn-lg btn-primary disabled">
+                            Zarejestruj się
+                        </button>
+                        <span th:if="${event.displayRegistrationStatus}" th:text="${event.registrationStatus}"></span>
+                    </td>
+                </tr>
+                <tr th:if="${event.shouldPaymentButtonBeDisplayed}">
+                    <td>Płatności</td>
+                    <td>
+                        <form th:action="@{/payments(eventId=${event.eventId}, personId=${#authentication.getPrincipal().getId()})}"
+                              method="POST">
+                            <button type="submit" class="btn btn-lg btn-primary">
+                                Zapłać
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Lista startowa</td>
+                    <td>
+                        <a th:href="@{/events/{id}/start_list(id=${event.eventId})}" class="btn btn-lg btn-primary"
+                           role="button">
+                            Lista uczestników
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/all.min.css}"/>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script>
+    $('.close-icon').on('click', function () {
+        $(this).closest('.card').fadeOut();
+    })
+</script>
+</body>
+<style>
+    .close-icon {
+        cursor: pointer;
+    }
+</style>
+</html>

@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Domtel</a>
+        <div class="collapse navbar-collapse">
+            <ul sec:authorize="isAuthenticated()" class="navbar-nav mr-auto">
+                <!--TODO Security -->
+                <li><a class="nav-link" th:href="@{/me}"><i
+                        class="fas fa-male"></i> Mój profil</a></li>
+                <li><a class="nav-link" th:href="@{/calendar}"><i class="fas fa-calendar-alt"></i> Kalendarz</a>
+                </li>
+                <li><a class="nav-link" th:href="@{/training_plans}"><i class="fas fa-clipboard-list"></i> Plany
+                    treningowe</a></li>
+                <li><a class="nav-link" th:href="@{/search}"><i class="fas fa-search"></i> Wyszukaj zawodnika</a>
+                </li>
+                <li><a class="nav-link" th:href="@{/events/user/{id}(id=${#authentication.getPrincipal().getId()})}"><i
+                        class="fab fa-elementor"></i> Moje wydarzenia</a>
+                </li>
+            </ul>
+            <ul sec:authorize="isAnonymous()" class="navbar-nav ml-auto">
+                <!--<li><a class="nav-link" th:href="@{/register}"><i class="fas fa-sign-in-alt"></i> Zarejestruj się</a></li>-->
+                <li><a class="nav-link" th:href="@{/login}"><i class="fas fa-user-alt"></i> Zaloguj się</a></li>
+            </ul>
+            <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+                <li>
+                    <form id="logout-form" style="display: none" method="post" th:action="@{/logout}"></form>
+                </li>
+                <li><a class="nav-link" href="#"
+                       onclick="document.getElementById('logout-form').submit(); return false;">
+                    <i class="fas fa-sign-out-alt"></i> Wyloguj się</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--TODO To na przyszłość jak dodajesz security-->
+<!--  <div sec:authorize="isAnonymous()">
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a href="?lang=en"> en</a></li>
+                  <li><a href="?lang=pl"> pl</a></li>
+                  <li><a href="/register"><span class="glyphicon glyphicon-user"></span> <span
+                          th:text="#{header.signUp}"></span></a></li>
+                  <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> <span
+                          th:text="#{header.signIn}"></span></a></li>
+              </ul>
+          </div>
+          <form id="logout-form" style="display: none" method="post" th:action="@{/logout}"></form>
+          <div sec:authorize="isAuthenticated()">
+              <ul class="nav navbar-nav">
+                  <li><a th:href="@{/messages/new}" th:text="#{header.addMessage}">Add new message</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a href="?lang=en"> en</a></li>
+                  <li><a href="?lang=pl"> pl</a></li>
+                  <li><a href="#" th:href="@{'/users/' + ${#authentication.name}}"><span
+                          sec:authentication="principal.user.username"></span></a></li>
+                  <li><a href="#" onclick="document.getElementById('logout-form').submit(); return false;"><span
+                          class="glyphicon glyphicon-log-out"></span> <span th:text="#{header.logOut}"></span></a>
+                  </li>
+              </ul>
+          </div>-->

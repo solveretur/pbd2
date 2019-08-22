@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<!--PAMIĘTAJ BY PRZEKOPIOWAC ZNACZNIKI <script>,<link> Z SAMEGO DOLU ZAMYKAJACEGO <body> !!!!!-->
+<head>
+    <meta charset="UTF-8"/>
+    <title>Domtel v2</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" th:include="@{header}">
+        </div>
+        <div class="col-md-12">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th colspan="2">
+                        Użytkownik
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Nazwa użytkownika</td>
+                    <td th:text="${user.username}"></td>
+                </tr>
+                <tr>
+                    <td>Mail</td>
+                    <td th:text="${user.email}"></td>
+                </tr>
+                <tr>
+                    <td>Wyniki</td>
+                    <td>
+                        <a th:href="@{/results/{athleteId}(athleteId=${#authentication.getPrincipal().getId()})}"
+                           class="btn btn-lg btn-info"
+                           role="button">
+                            Wszystkie Wyniki
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+                <thead>
+                <tr>
+                    <th colspan="2">
+                        Dane Osobowe
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Imię</td>
+                    <td th:text="${user.name}"></td>
+                </tr>
+                <tr>
+                    <td>Nazwisko</td>
+                    <td th:text="${user.surname}"></td>
+                </tr>
+                <tr>
+                    <td>Data Urodzenia</td>
+                    <td th:text="${user.birthday}"></td>
+                </tr>
+                <tr>
+                    <td>Płeć</td>
+                    <td th:text="${user.sex}"></td>
+                </tr>
+                <tr>
+                    <td>Miasto</td>
+                    <td th:text="${user.town}"></td>
+                </tr>
+                </tbody>
+                <thead th:if="${user.professional}">
+                <tr>
+                    <th colspan="2">
+                        Dane Zawodnika
+                    </th>
+                </tr>
+                </thead>
+                <tbody th:if="${user.professional}">
+                <tr>
+                    <td>Licencja</td>
+                    <td th:text="${user.licence}"></td>
+                </tr>
+                <tr>
+                    <td>Klasa Sportowa</td>
+                    <td th:text="${user.sportClass}"></td>
+                </tr>
+                <tr>
+                    <td>Data Rozpoczęcia Kariery</td>
+                    <td th:text="${user.careerStartDate}"></td>
+                </tr>
+                <tr th:if="!${user.active}">
+                    <td>Data Zakończenia Kariery</td>
+                    <td th:text="${user.careerEndDate}"></td>
+                </tr>
+                <tr th:if="${user.teamName != null}">
+                    <td>Zespół</td>
+                    <td th:text="${user.teamName}"></td>
+                </tr>
+                <tr th:if="${user.coachName} != null">
+                    <td>Trener</td>
+                    <td th:text="${user.coachName} + ' ' + ${user.coachSurname}"></td>
+                </tr>
+                <tr th:if="${user.trainingPlanId} != 0">
+                    <td>Plan Treningowy</td>
+                    <td>
+                        <a th:href="@{/training_plans/{id}(id=${user.trainingPlanId})}" class="btn btn-lg btn-info"
+                           role="button">
+                            Plan Treningowy
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <table class="table table-hover table-striped" th:if="${!user.records.isEmpty()}">
+                <thead>
+                <tr>
+                    <th colspan="4"><h3 class="mx-auto">Rekordy życiowe</h3></th>
+                </tr>
+                <tr>
+                    <th>Rodzaj Biegu</th>
+                    <th>Wynik</th>
+                    <th>Data Zawodów</th>
+                    <th>Zawody</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${user.records}">
+                    <td th:text="${r.runType}"></td>
+                    <td th:text="${r.result}"></td>
+                    <td th:text="${r.occurDate}"></td>
+                    <td>
+                        <a th:href="@{/events/{id}(id=${r.eventId},athleteId=${#authentication.getPrincipal().getId()})}"
+                           th:text="${r.eventRank} + ', ' + ${r.town}"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/all.min.css}"/>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+</body>
+</html>

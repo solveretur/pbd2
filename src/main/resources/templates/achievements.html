@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<!--PAMIĘTAJ BY PRZEKOPIOWAC ZNACZNIKI <script>,<link> Z SAMEGO DOLU ZAMYKAJACEGO <body> !!!!!-->
+<head>
+    <meta charset="UTF-8"/>
+    <title>Domtel v2</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" th:include="@{header}">
+        </div>
+        <div class="col-md-12">
+            <h3 class="mx-auto">Osiągnięcia</h3>
+            <table class="table table-hover table-striped">
+                <th:block th:each="rm : ${resultsMap.asMap().entrySet()}">
+                    <thead th:if="${!rm.value.isEmpty()}">
+                    <tr>
+                        <th>Sezon</th>
+                        <th colspan="3" class="mx-auto" th:text="${rm.key.seasonType}+'/'+${rm.key.year}"></th>
+                    </tr>
+                    <tr>
+                        <th>Zawody</th>
+                        <th>Pozycja</th>
+                        <th>Wynik</th>
+                        <th>Rodzaj Biegu</th>
+                    </tr>
+                    </thead>
+                    <tbody th:if="${!rm.value.isEmpty()}">
+                    <tr th:each="r : ${rm.value}">
+                        <td>
+                            <a th:href="@{/events/{id}(id=${r.eventId},athleteId=${#authentication.getPrincipal().getId()})}"
+                               th:text="${r.eventRank} + ', ' + ${r.town}"></a>
+                        </td>
+                        <td th:text="${r.position}"></td>
+                        <td th:text="${r.result}"></td>
+                        <td th:text="${r.runType}"></td>
+                    </tr>
+                    </tbody>
+                </th:block>
+            </table>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/all.min.css}"/>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+</body>
+</html>

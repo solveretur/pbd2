@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="en">
+<!--PAMIĘTAJ BY PRZEKOPIOWAC ZNACZNIKI <script>,<link> Z SAMEGO DOLU ZAMYKAJACEGO <body> !!!!!-->
+<head>
+    <meta charset="UTF-8"/>
+    <title>Domtel v2</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" th:include="@{header}"></div>
+        <br/>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+            <div th:if="${error != null}" class="card text-white bg-danger mb-3">
+                <span class="pull-right clickable close-icon" data-effect="fadeOut"><i class="fa fa-times"></i></span>
+                <div class="card-body">Błąd w logowaniu, prawdopodobnie zły login !</div>
+            </div>
+            <form th:action="@{/login}" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label for="username">Nazwa użytkownika</label>
+                    <input class="form-control input-lg" type="text" id="username" name="username"
+                           placeholder="Nazwa Użytkownika"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Hasło</label>
+                    <input class="form-control input-lg" type="password" id="password" name="password"
+                           placeholder="Hasło"/>
+                </div>
+                <!-- TODO OGARNIJ JAK TO USTAWIĆ
+                <div class="form-check">
+                    <label class="form-check-label" for="remember-me"> Zapamiętaj</label>
+                    <input type="checkbox" class="form-check-input" id="remember-me"/>
+                </div>
+                -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <span class="fas fa-user"></span> Zaloguj
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6"></div>
+    </div>
+</div>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/all.min.css}"/>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script>
+    $('.close-icon').on('click', function () {
+        $(this).closest('.card').fadeOut();
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<!--PAMIĘTAJ BY PRZEKOPIOWAC ZNACZNIKI <script>,<link> Z SAMEGO DOLU ZAMYKAJACEGO <body> !!!!!-->
+<head>
+    <meta charset="UTF-8"/>
+    <title>Domtel v2</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" th:include="@{header}">
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+            <div th:if="${param.error}" class="card text-white bg-danger mb-3">
+                <span class="pull-right clickable close-icon" data-effect="fadeOut"><i class="fa fa-times"></i></span>
+                <div class="card-body" th:text="${param.error}"></div>
+            </div>
+            <form th:action="@{/search/process}" th:object="${searchForm}" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label for="name">Imię</label>
+                    <input th:field="*{name}" class="form-control input-lg" type="text" id="name" name="name"
+                           placeholder="Imię"/>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Nazwisko</label>
+                    <input th:field="*{surname}" class="form-control input-lg" type="text" id="surname" name="surname"
+                           placeholder="Hasło"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <span class="fas fa-search"></span> Szukaj
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6"></div>
+    </div>
+</div>
+</div>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/all.min.css}"/>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script>
+    $('.close-icon').on('click', function () {
+        $(this).closest('.card').fadeOut();
+    })
+</script>
+</body>
+</html>

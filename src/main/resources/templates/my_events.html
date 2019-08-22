@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<!--PAMIĘTAJ BY PRZEKOPIOWAC ZNACZNIKI <script>,<link> Z SAMEGO DOLU ZAMYKAJACEGO <body> !!!!!-->
+<head>
+    <meta charset="UTF-8"/>
+    <title>Domtel v2</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" th:include="@{header}">
+        </div>
+        <div class="col-md-12">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Zawody</th>
+                    <th>Data Zawodów</th>
+                    <th>Status Rejestracji</th>
+                </thead>
+                <tbody>
+                <tr th:each="e : ${events}">
+                    <td>
+                        <a th:href="@{/events/{id}(id=${e.eventId},athleteId=${#authentication.getPrincipal().getId()})}"
+                           th:text="${e.eventRank} + ', ' + ${e.town}"></a>
+                    </td>
+                    <td th:text="${e.occurDate}"></td>
+                    <td>
+                        <span th:if="${e.displayRegistrationStatus}" th:text="${e.registrationStatus}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/all.min.css}"/>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+</body>
+</html>
